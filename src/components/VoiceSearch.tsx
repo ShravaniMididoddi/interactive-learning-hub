@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { toast } from '@/hooks/use-toast';
+import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
 
 interface SearchResult {
   id: string;
@@ -19,6 +21,8 @@ const VoiceSearch = () => {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [recognition, setRecognition] = useState<SpeechRecognition | null>(null);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
 
   // Initialize speech recognition
   useEffect(() => {
@@ -172,46 +176,55 @@ const VoiceSearch = () => {
   };
 
   const handleLogin = () => {
-    toast({
-      title: "Login",
-      description: "Login functionality will be implemented here",
-    });
+    setShowLogin(true);
+    setShowSignup(false);
   };
 
   const handleSignup = () => {
-    toast({
-      title: "Sign Up",
-      description: "Sign up functionality will be implemented here",
-    });
+    setShowSignup(true);
+    setShowLogin(false);
   };
+
+  const closeAuthForms = () => {
+    setShowLogin(false);
+    setShowSignup(false);
+  };
+
+  // Show login form if requested
+  if (showLogin) {
+    return <LoginForm onClose={closeAuthForms} onSwitchToSignup={handleSignup} />;
+  }
+
+  // Show signup form if requested
+  if (showSignup) {
+    return <SignupForm onClose={closeAuthForms} onSwitchToLogin={handleLogin} />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <div className="container mx-auto px-4 py-8">
-        {/* Header with Auth Buttons */}
-        <div className="flex justify-between items-start mb-8">
-          <div className="flex-1">
-            <div className="text-center">
-              <h1 className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-                Interactive Learning Hub
-              </h1>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Search with voice or text to discover curated learning resources. Get instant access to educational content from top platforms.
-              </p>
-            </div>
-          </div>
-          <div className="flex space-x-3 ml-8">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+            Interactive Learning Hub
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-6">
+            Search with voice or text to discover curated learning resources. Get instant access to educational content from top platforms.
+          </p>
+          
+          {/* Auth Buttons Below Header */}
+          <div className="flex justify-center space-x-4 mb-8">
             <Button
               onClick={handleLogin}
               variant="outline"
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 px-6 py-3"
             >
               <User className="h-4 w-4" />
               <span>Login</span>
             </Button>
             <Button
               onClick={handleSignup}
-              className="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+              className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
             >
               <UserPlus className="h-4 w-4" />
               <span>Sign Up</span>
