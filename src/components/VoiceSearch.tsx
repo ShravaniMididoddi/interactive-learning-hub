@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
-import { Mic, MicOff, Search, Volume2, ExternalLink } from 'lucide-react';
+import { Mic, MicOff, Search, Volume2, ExternalLink, User, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
@@ -92,14 +91,14 @@ const VoiceSearch = () => {
         id: '1',
         title: `${query} - Wikipedia`,
         description: `Learn comprehensive information about ${query} on Wikipedia`,
-        url: `https://en.wikipedia.org/wiki/${query.replace(/\s+/g, '_')}`,
+        url: `https://en.wikipedia.org/wiki/Special:Search?search=${encodedQuery}`,
         snippet: `Discover detailed information about ${query} including its history, definition, and related topics. Wikipedia provides reliable, well-sourced content that's perfect for learning and research.`
       },
       {
         id: '2',
-        title: `${query} - YouTube Tutorials`,
+        title: `${query} - YouTube`,
         description: `Watch educational videos about ${query}`,
-        url: `https://www.youtube.com/results?search_query=${encodedQuery}+tutorial`,
+        url: `https://www.youtube.com/results?search_query=${encodedQuery}`,
         snippet: `Visual learning made easy! Watch step-by-step tutorials, expert explanations, and practical demonstrations about ${query} from top educators and professionals.`
       },
       {
@@ -172,17 +171,52 @@ const VoiceSearch = () => {
     });
   };
 
+  const handleLogin = () => {
+    toast({
+      title: "Login",
+      description: "Login functionality will be implemented here",
+    });
+  };
+
+  const handleSignup = () => {
+    toast({
+      title: "Sign Up",
+      description: "Sign up functionality will be implemented here",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
-            Interactive Learning Hub
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Search with voice or text to discover curated learning resources. Get instant access to educational content from top platforms.
-          </p>
+        {/* Header with Auth Buttons */}
+        <div className="flex justify-between items-start mb-8">
+          <div className="flex-1">
+            <div className="text-center">
+              <h1 className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+                Interactive Learning Hub
+              </h1>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Search with voice or text to discover curated learning resources. Get instant access to educational content from top platforms.
+              </p>
+            </div>
+          </div>
+          <div className="flex space-x-3 ml-8">
+            <Button
+              onClick={handleLogin}
+              variant="outline"
+              className="flex items-center space-x-2"
+            >
+              <User className="h-4 w-4" />
+              <span>Login</span>
+            </Button>
+            <Button
+              onClick={handleSignup}
+              className="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600"
+            >
+              <UserPlus className="h-4 w-4" />
+              <span>Sign Up</span>
+            </Button>
+          </div>
         </div>
 
         {/* Search Interface */}
